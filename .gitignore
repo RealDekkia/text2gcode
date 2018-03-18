@@ -57,3 +57,8 @@ typings/
 # dotenv environment variables file
 .env
 
+# Unimportant stuff
+img/
+vid/
+letterGcode/
+generated/
