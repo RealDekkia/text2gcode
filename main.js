@@ -1,41 +1,11 @@
 var fs = require('fs');
-const font = {
-    "A": ["G1 Y-5", "G1 Z-2", "G1 Y5 X1.5", "G1 Y-5 X1.5", "G1 Z2", "G1 X-1.5 Y2", "G1 Z-2", "G1 X-2", "G1 Z2", "G1 Y3 X3.5"],
-    "B": ["G1 Z-2", "G1 Y-5", "G1 Y1 X3", "G1 Y0.5", "G1 Y1 X-3", "G1 Y1 X3", "G1 Y0.5", "G1 Y1 X-3", "G1 Z2", "G1 X3"],
-    "C": ["G1 X3", "G1 Z-2", "G1 X-3 Y-2", "G1 Y-1", "G1 X3 Y-2", "G1 Z2", "G1 Y5"],
-    "D": ["G1 Z-2", "G1 Y-5", "G1 Y1.5 X3", "G1 Y2", "G1 Y1.5 X-3", "G1 Z2", "G1 X3"],
-    "E": ["G1 Z-2", "G1 Y-5", "G1 X3", "G1 Z2", "G1 Y2.5", "G1 Z-2", "G1 X-3", "G1 Z2", "G1 Y2.5", "G1 Z-2", "G1 X3", "G1 Z2"],
-    "F": ["G1 Z-2", "G1 Y-5", "G1 Z2", "G1 X3 Y2.5", "G1 Z-2", "G1 X-3", "G1 Z2", "G1 Y2.5", "G1 Z-2", "G1 X3", "G1 Z2"],
-    "G": ["G1 X3", "G1 Z-2", "G1 X-2", "G1 X-1 Y-1", "G1 Y-2", "G1 X1 Y-1", "G1 X2 ", "G1 Y1", "G1 X-1", "G1 Z2", "G1 X1 Y3"],
-    "H": ["G1 Z-2", "G1 Y-5", "G1 Z2", "G1 X3", "G1 Z-2", "G1 Y5", "G1 Z2", "G1 Y-2.5", "G1 Z-2", "G1 X-3", "G1 Z2", "G1 X3 Y2.5"],
-    "I": ["G1 X1.5", "G1 Z-2", "G1 Y-5", "G1 Z2", "G1 X1.5 Y5"],
-    "J": ["G1 X2", "G1 Z-2", "G1 Y-5", "G1 X-1", "G1 X-1 Y1", "G1 Z2", "G1 X3 Y4"],
-    "K": ["G1 Z-2", "G1 Y-5", "G1 Z2", "G1 Y2.5", "G1 Z-2", "G1 X3 Y-2.5", "G1 Z2", "G1 Y5", "G1 Z-2", "G1 X-3 Y-2.5", "G1 Z2", "G1 X3 Y2.5"],
-    "L": ["G1 Z-2", "G1 Y-5", "G1 X3", "G1 Z2", "G1 Y5"],
-    "M": ["G1 Y-5", "G1 Z-2", "G1 Y5", "G1 Y-5 X1.5", "G1 Y5 X1.5", "G1 Y-5", "G1 Z2", "G1 Y5"],
-    "N": ["G1 Y-5", "G1 Z-2", "G1 Y5", "G1 Y-5 X3", "G1 Y5", "G1 Z2"],
-    "O": ["G1 Y-1", "G1 Z-2", "G1 Y-3", "G1 Y-1 X1", "G1 X1", "G1 Y1 X1", "G1 Y3", "G1 Y1 X-1", "G1 X-1", "G1 X-1 Y-1", "G1 Z2", "G1 X3 Y1"],
-    "P": ["G1 Y-5", "G1 Z-2", "G1 Y5", "G1 Y-1.25 X3", "G1 Y-0.5", "G1 Y-1.25 X-3", "G1 Z2", "G1 X3 Y3"],
-    "Q": ["G1 Y-1", "G1 Z-2", "G1 Y-3", "G1 Y-1 X1", "G1 X1", "G1 Y1 X1", "G1 Y3", "G1 Y1 X-1", "G1 X-1", "G1 X-1 Y-1", "G1 Z2", "G1 X2 Y-3", "G1 Z-2", "G1 X1 Y-1", "G1 Z2", "G1 Y5"],
-    "R": ["G1 Y-5", "G1 Z-2", "G1 Y5", "G1 Y-1.25 X3", "G1 Y-1.25 X-3", "G1 Y-2.5 X3", "G1 Z2", "G1 Y5"],
-    "S": ["G1 X3", "G1 Z-2", "G1 X-2", "G1 X-1 Y-0.75", "G1 Y-1", "G1 X1 Y-0.75", "G1 X1", "G1 X1 Y-0.75", "G1 Y-1", "G1 Y-0.75 X-1", "G1 X-2", "G1 Z2", "G1 X3 Y5"],
-    "T": ["G1 Z-2", "G1 X3", "G1 Z2", "G1 X-1.5", "G1 Z-2", "G1 Y-5", "G1 Z2", "G1 X1.5 Y5"],
-    "U": ["G1 Z-2", "G1 Y-4", "G1 Y-1 X1", "G1 X1", "G1 Y1 X1", "G1 Y4", "G1 Z2"],
-    "V": ["G1 Z-2", "G1 X1.5 Y-5", "G1 X1.5 Y5", "G1 Z2"],
-    "W": ["G1 Z-2", "G1 X0.75 Y-5", "G1 X0.75 Y5", "G1 X0.75 Y-5", "G1 X0.75 Y5", "G1 Z2"],
-    "X": ["G1 Z-2", "G1 X3 Y-5", "G1 Z2", "G1 Y5", "G1 Z-2", "G1 X-3 Y-5", "G1 Z2", "G1 X3.5 Y5"],
-    "Y": ["G1 Z-2", "G1 X1.5 Y-2", "G1 X1.5 Y2", "G1 Z2", "G1 X-1.5 Y-2", "G1 Z-2", "G1 Y-3", "G1 Z2", "G1 Y5 X1.5"],
-    "Z": ["G1 Z-2", "G1 X3", "G1 X-3 Y-5", "G1 X3", "G1 Z2", "G1 Y5"],
-    " ": ["G1 X3"],
-    "?": ["G1 Y-1", "G1 Z-2", "G1 X1 Y1", "G1 X1", "G1 X1 Y-1", "G1 X-1 Y-1", "G1 X-1", "G1 X-1 Y-1", "G1 X1 Y-1", "G1 X1", "G1 X1 Y1", "G1 Z2", "G1 X-1.25 Y-1.5", "G1 Z-2", "G1 X-0.5", "G1 Y-0.5", "G1 X0.5", "G1 Y0.5", "G1 Z2", "G1 X1.25 Y4.5"],
-    "SPACE": ["G1 X1"]
-};
+const font = JSON.parse(fs.readFileSync("main.gfont")); //Read .gfont-file
 
 const startC = 10; //Sets the Column in which to start in mm from X0 (Left border)
-const startR = 200; //Sets the Row to Start from in mm from Y0 (Bottom Border)
+const startR = 180; //Sets the Row to Start from in mm from Y0 (Bottom Border)
 const travelHeight = 10; //Sets the Travel-height of the pen
 const headHeigth = 5;   //Offset of the head from the bed
-const fileName = "generated/toBeFairPart1.gcode"; //Specifies the name for the Output-file
+const fileName = "generated/letterTest.gcode"; //Specifies the name for the Output-file
 
 var letterLength = 0; //Counts the length of the current row in mm
 var charCount = 0;  //The amount of chars in the text
@@ -118,5 +88,6 @@ function appendToFile(str) {
     }
 }
 
-writeGCode("To be fair you have to have\na very high IQ to under\nstand Rick and Morty The\nhumor is extremely subtle\nand without a solid grasp\nof theoretical physics most\nof the jokes will go over a\ntypical viewers head Theres\nalso Ricks nihilistic out\nlook which is deftly woven\ninto his characterisation\nhis personal philosophy\ndraws heavily from\nNarodnaya Volya literature\nfor instance The fans under\nstand this stuff they have\nthe intellectual capacity\nto truly appreciate the\ndepths of these jokes to\nrealize that theyre not\njust funny they say some\nthing deep about LIFE As a\nconsequence people who\ndislike Rick and Morty");
+writeGCode("ABCDEFGHIJKLMNOPQRSTUVWXYZ\n0123456789\nabcdefghijklmnopqrstuvwxyz\n!\"#$%&'()*+,-./:;<>=@[]\\^_`\n{}|~€„“©®§°äöüÜÄÖß─│?");
+//writeGCode("ABCDEFGHIJKLMNOPQRSTUVWXYZ\n0123456789\nabcdefghijklmnopqrstuvwxyz\n!\"#$%&'()*+,-./:;<>=@[]\\^_`\n{}|~€„“©®§°äöüÜÄÖß─│?");
 stream.end(); //don't forget to close the stream :D
